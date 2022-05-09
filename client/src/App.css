@@ -40,3 +40,10 @@ body {
   max-width: 90%;
   margin: 0 auto;
 }
+
+.container img {
+  width: 3.5%;
+  max-width: 100%;
+  height: auto;
+  border-radius: 50%;
+}
