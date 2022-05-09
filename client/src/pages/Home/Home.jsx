@@ -1,20 +1,20 @@
 import React from "react";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import Button from "../../Components/Shared/Button/Button";
 import Card from "../../Components/Shared/Card/Card";
 import styles from "./Home.module.css";
 
 const Home = () => {
-  const signinLinkStyles = {
-    color: "#0077ff",
-    fontWeight: "bold",
-    textDecoration: "none",
-    marginLeft: "10px",
-  };
+  // const signinLinkStyles = {
+  //   color: "#0077ff",
+  //   fontWeight: "bold",
+  //   textDecoration: "none",
+  //   marginLeft: "10px",
+  // };
   const history = useHistory();
   function startRegistration() {
     // window.location.href = "/signup";
-    history.push("/register");
+    history.push("/authenticate");
   }
   return (
     <div className={styles.cardWrapper}>
@@ -25,13 +25,10 @@ const Home = () => {
           nothing breaks
         </p>
         <div>
-          <Button onClick={startRegistration} text="Get your username" />
+          <Button onClick={startRegistration} text="Let's Go" />
         </div>
         <div className={styles.signinWrapper}>
           <span className={styles.hasInvite}>Have an invite text?</span>
-          <Link style={signinLinkStyles} to="/login">
-            Sign In
-          </Link>
         </div>
       </Card>
     </div>
