@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import Button from "../../Components/Shared/Button/Button";
 import Card from "../../Components/Shared/Card/Card";
 import styles from "./Home.module.css";
@@ -11,8 +11,10 @@ const Home = () => {
     textDecoration: "none",
     marginLeft: "10px",
   };
+  const history = useHistory();
   function startRegistration() {
-    window.location.href = "/signup";
+    // window.location.href = "/signup";
+    history.push("/register");
   }
   return (
     <div className={styles.cardWrapper}>
