@@ -8,6 +8,7 @@ const Card = ({ title, icon, children }) => {
         <img src={`/images/${icon}.png`} alt="logo" />
         <h1 className={styles.heading}>{title}</h1>
       </div>
+      {children}
     </div>
   );
 };
