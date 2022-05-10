@@ -15,8 +15,8 @@ const StepOtp = ({ onNext }) => {
             <Button text="Next" />
           </div>
           <p className={styles.bottomParagraph}>
-            By entering your OTP, you’re agreeing to our Terms of Service and
-            Privacy Policy. Thanks!
+            I've send a OTP which will be valid for 2 minutes, after that you'll
+            get another one
           </p>
         </Card>
       </div>
