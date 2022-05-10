@@ -8,7 +8,7 @@ app.use(routes);
 const PORT = process.env.PORT || 5000;
 
 app.get("/", (req, res) => {
-  res.send("Hello from app!");
+  res.send("Hello from server");
 });
 
 app.listen(process.env.PORT, () => {
