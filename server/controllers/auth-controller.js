@@ -21,11 +21,41 @@ class AuthController {
     const hash = hashService.hashOtp(data);
 
     //send otp
-    await otpService.sendBySms(phone, otp);
+    try {
+      await otpService.sendBySms(phone, otp);
+      return res.status(200).json({
+        hash: `${hash}.${expries}`,
+        phone,
+      });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({
+        message: "Something went wrong",
+      });
+    }
+  }
+  async verifyOtp(req, res) {
+    const { otp, hash, phone } = req.body;
+    if (!otp || !hash || !phone) {
+      return res.status(400).json({
+        message: "all fields are required",
+      });
+    }
+    const [hashedOtp, expries] = hash.split(".");
+    if (Date.now() > expries) {
+      res.status(400).json({
+        message: "OTP has expired",
+      });
+    }
 
-    res.json({
-      hash: hash,
-    });
+    const data = `${phone}.${otp}.${expries}`;
+    const isValid = otpService.verifyOtp(data, hashedOtp);
+    if (!isValid) {
+      res.status(400).json({ message: "OTP is invalid" });
+    }
+    let user;
+    let accessToken;
+    let refreshToken;
   }
 }
 
