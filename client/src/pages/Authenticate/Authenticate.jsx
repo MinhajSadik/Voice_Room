@@ -11,7 +11,7 @@ const Authenticate = () => {
   const [step, setStep] = useState(1);
   const Step = steps[step];
   function onNext() {
-    setStep((prevState) => prevState + 1);
+    setStep((prevStep) => prevStep + 1);
   }
   return (
     <div>

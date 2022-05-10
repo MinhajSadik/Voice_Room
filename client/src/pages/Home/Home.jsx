@@ -5,12 +5,6 @@ import Card from "../../Components/Shared/Card/Card";
 import styles from "./Home.module.css";
 
 const Home = () => {
-  // const signinLinkStyles = {
-  //   color: "#0077ff",
-  //   fontWeight: "bold",
-  //   textDecoration: "none",
-  //   marginLeft: "10px",
-  // };
   const history = useHistory();
   function startRegistration() {
     // window.location.href = "/signup";

@@ -4,16 +4,16 @@ import Card from "../../../../Components/Shared/Card/Card";
 import TextInput from "../../../../Components/Shared/TextInput/TextInput";
 import styles from "../StepPhoneEmail.module.css";
 
-const Email = () => {
+const Email = ({ onNext }) => {
   const [email, setEmail] = useState("");
   return (
     <Card title="Enter your email id" icon="email">
       <TextInput value={email} onChange={(e) => setEmail(e.target.value)} />
       <div>
         <div className={styles.actionButtonWrap}>
-          <Button text="Next" />
+          <Button text="Next" onClick={onNext} />
         </div>
-        <p className={styles.buttomParagraph}>
+        <p className={styles.bottomParagraph}>
           By entering your email, you're agreeing to our Terms of Service and
           Privacy Policy. Thanks
         </p>{" "}
