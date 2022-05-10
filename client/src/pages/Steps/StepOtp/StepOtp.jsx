@@ -15,7 +15,7 @@ const StepOtp = ({ onNext }) => {
             <Button text="Next" />
           </div>
           <p className={styles.bottomParagraph}>
-            By entering your number, you’re agreeing to our Terms of Service and
+            By entering your OTP, you’re agreeing to our Terms of Service and
             Privacy Policy. Thanks!
           </p>
         </Card>
