@@ -10,9 +10,13 @@ const userSchema = new Schema(
     activated: {
       type: Boolean,
       required: false,
+      default: false,
     },
   },
-  { timestamps: true }
+
+  {
+    timestamps: true,
+  }
 );
 
 module.exports = mongoose.model("User", userSchema, "users");

@@ -1,18 +1,21 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import Button from "../../../../Components/Shared/Button/Button";
 import Card from "../../../../Components/Shared/Card/Card";
 import TextInput from "../../../../Components/Shared/TextInput/TextInput";
 import { sendOtp } from "../../../../http/index";
+import { setOtp } from "../../../../store/authSlice";
 import styles from "../StepPhoneEmail.module.css";
 
 const Phone = ({ onNext }) => {
   const [phoneNumber, setPhoneNumber] = useState("");
+  const dispatch = useDispatch();
 
   async function submit() {
-    //server request
-    const res = await sendOtp({ phone: phoneNumber });
-    console.log(res);
-    // onNext();
+    const { data } = await sendOtp({ phone: phoneNumber });
+    dispatch(setOtp({ phone: data.phone, hash: data.hash }));
+    console.log(data);
+    onNext();
   }
 
   return (
