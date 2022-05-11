@@ -1,22 +1,24 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Button from "../../../Components/Shared/Button/Button";
 import Card from "../../../Components/Shared/Card/Card";
 import TextInput from "../../../Components/Shared/TextInput/TextInput";
 import { verifyOtp } from "../../../http";
+import { setAuth } from "../../../store/authSlice";
 import styles from "./StepOtp.module.css";
 
-const StepOtp = ({ onNext }) => {
+const StepOtp = () => {
   const [otp, setOtp] = React.useState("");
+  const dispatch = useDispatch();
   const { phone, hash } = useSelector((state) => state.auth.otp);
   async function submit() {
     try {
       const { data } = await verifyOtp({ otp, phone, hash });
       console.log(data);
+      dispatch(setAuth(data));
     } catch (err) {
       console.error(err);
     }
-    // onNext();
   }
   return (
     <>
