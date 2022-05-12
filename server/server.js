@@ -5,6 +5,7 @@ const routes = require("./routes");
 const DbConnect = require("./database");
 
 const corsOptions = {
+  credentials: true,
   origin: ["http://localhost:3000"],
 };
 
