@@ -17,7 +17,7 @@ const PORT = process.env.PORT || 5000;
 DbConnect();
 
 app.get("/", (req, res) => {
-  res.send("Hello from server");
+  res.send("Hello Coders House Voice Room");
 });
 
 app.listen(process.env.PORT, () => {
