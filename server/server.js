@@ -3,6 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const routes = require("./routes");
 const DbConnect = require("./database");
+const cookieParser = require("cookie-parser");
 
 const corsOptions = {
   credentials: true,
@@ -10,8 +11,10 @@ const corsOptions = {
 };
 
 const app = express();
-app.use(express.json());
+app.use(cookieParser());
+app.use(express.json({ limit: "8mb" }));
 app.use(cors(corsOptions));
+app.use("/storage", express.static("storage"));
 app.use(routes);
 const PORT = process.env.PORT || 5000;
 DbConnect();

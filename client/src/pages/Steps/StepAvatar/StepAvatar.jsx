@@ -4,6 +4,7 @@ import Button from "../../../Components/Shared/Button/Button";
 import Card from "../../../Components/Shared/Card/Card";
 import { activate } from "../../../http/index";
 import { setAvatar } from "../../../store/activateSlice";
+import { setAuth } from "../../../store/authSlice";
 import styles from "./StepAvatar.module.css";
 
 const StepAvatar = ({ onNext }) => {
@@ -14,20 +15,23 @@ const StepAvatar = ({ onNext }) => {
     const file = e.target.files[0];
     const reader = new FileReader();
     reader.readAsDataURL(file);
-    reader.onloadend = () => {
+    reader.onloadend = function () {
       setImage(reader.result);
       dispatch(setAvatar(reader.result));
-      console.log(reader.result);
     };
   }
   async function submit() {
     try {
       const { data } = await activate({ name, avatar });
+      if (data.auth) {
+        dispatch(setAuth(data));
+      }
       console.log(data);
     } catch (err) {
-      console.error(err.message);
+      console.log(err.message);
     }
   }
+
   return (
     <>
       <div className={styles.cardWrapper}>
