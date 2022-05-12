@@ -10,14 +10,14 @@ const steps = {
 const Activate = () => {
   const [step, setStep] = React.useState(1);
 
+  const Step = steps[step];
   function onNext() {
     setStep((prevStep) => prevStep + 1);
   }
 
-  const Step = steps[step];
   return (
-    <div>
-      <Step onNext={onNext} setStep={setStep} />
+    <div className="cardWrapper">
+      <Step onNext={onNext} />
     </div>
   );
 };

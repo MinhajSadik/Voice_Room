@@ -47,3 +47,11 @@ body {
   height: auto;
   border-radius: 50%;
 }
+
+.cardWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  min-height: calc(100vh - 140px);
+}
