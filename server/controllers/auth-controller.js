@@ -91,6 +91,76 @@ class AuthController {
     const userDto = new UserDto(user);
     res.json({ user: userDto, auth: true });
   }
+
+  async refresh(req, res) {
+    //get refresh token from cookie or header
+    const { refreshToken: refreshTokenFromCookie } = req.cookies;
+
+    let userData;
+
+    //check if token is valid
+    try {
+      userData = await tokenService.verifyRefreshToken(refreshTokenFromCookie);
+    } catch (error) {
+      console.error(error);
+      return res.status(401).json({
+        message: "Invalid refresh token",
+      });
+    }
+    //check if token is database
+    try {
+      const token = await tokenService.findRefreshToken(
+        userData._id,
+        refreshTokenFromCookie
+      );
+      if (!token) {
+        return res.status(401).json({
+          message: "Invalid refresh token",
+        });
+      }
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({
+        message: "Interner server error",
+      });
+    }
+    //check if valid user
+    const user = await userService.findUser({ _id: userData._id });
+
+    if (!user) {
+      return res.status(404).json({
+        message: "User not found",
+      });
+    }
+
+    //generate new token access and refresh
+    const { refreshToken, accessToken } = tokenService.generateTokens({
+      _id: userData._id,
+    });
+
+    //update refresh token in database
+    try {
+      await tokenService.updateRefreshToken(userData._id, refreshToken);
+    } catch (error) {
+      return res.status(500).json({
+        message: "Internal server error",
+      });
+    }
+    //put is cookie
+    res.cookie("refreshToken", refreshToken, {
+      maxAge: 1000 * 60 * 60 * 24 * 30,
+      httpOnly: true,
+    });
+
+    res.cookie("accessToken", accessToken, {
+      maxAge: 1000 * 60 * 60 * 24 * 30,
+      httpOnly: true,
+    });
+    //send response
+
+    const userDto = new UserDto(user);
+    res.json({ user: userDto, auth: true });
+  }
 }
 
 module.exports = new AuthController();
