@@ -6,6 +6,7 @@ import {
   Switch,
 } from "react-router-dom";
 import "./App.css";
+import { Loader } from "./Components/Shared/Loader/Loader";
 import Navigation from "./Components/Shared/Navigation/Navigation";
 import useLoadingWithRefresh from "./hooks/useLoadingWithRefresh";
 import Activate from "./pages/Activate/Activate";
@@ -17,7 +18,7 @@ function App() {
   const { loading } = useLoadingWithRefresh();
 
   return loading ? (
-    "Loading..."
+    <Loader message="Loading, Please wait..." />
   ) : (
     <Router>
       <Navigation />
