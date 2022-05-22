@@ -161,6 +161,20 @@ class AuthController {
     const userDto = new UserDto(user);
     res.json({ user: userDto, auth: true });
   }
+
+  async logout(req, res) {
+    //delete refresh token from database
+
+    const { refreshToken } = req.cookies;
+    await tokenService.removeToken(refreshToken);
+    res.clearCookie("refreshToken");
+    res.clearCookie("accessToken");
+    res.json({ user: null, auth: false });
+    try {
+    } catch (error) {}
+
+    //delete cookies
+  }
 }
 
 module.exports = new AuthController();
