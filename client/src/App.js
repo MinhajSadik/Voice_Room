@@ -7,13 +7,18 @@ import {
 } from "react-router-dom";
 import "./App.css";
 import Navigation from "./Components/Shared/Navigation/Navigation";
+import useLoadingWithRefresh from "./hooks/useLoadingWithRefresh";
 import Activate from "./pages/Activate/Activate";
 import Authenticate from "./pages/Authenticate/Authenticate";
 import Home from "./pages/Home/Home";
 import Rooms from "./pages/Rooms/Rooms";
 
 function App() {
-  return (
+  const { loading } = useLoadingWithRefresh();
+
+  return loading ? (
+    "Loading..."
+  ) : (
     <Router>
       <Navigation />
       <Switch>
