@@ -9,14 +9,13 @@ const api = axios.create({
   },
 });
 
-// list of all the endpoints
-
+// List of all the endpoints
 export const sendOtp = (data) => api.post("/api/send-otp", data);
 export const verifyOtp = (data) => api.post("/api/verify-otp", data);
 export const activate = (data) => api.post("/api/activate", data);
 export const logout = () => api.post("/api/logout");
 
-//Interceptors
+// Interceptors
 api.interceptors.response.use(
   (config) => {
     return config;
@@ -35,8 +34,8 @@ api.interceptors.response.use(
         });
 
         return api.request(originalRequest);
-      } catch (error) {
-        console.error(error.message);
+      } catch (err) {
+        console.log(err.message);
       }
     }
     throw error;

@@ -12,16 +12,15 @@ const Phone = ({ onNext }) => {
   const dispatch = useDispatch();
 
   async function submit() {
-    if (!phoneNumber) {
-      return;
-    }
-    const { data } = await sendOtp({ phone: phoneNumber });
+    if (!phoneNumber) return;
+    const { data } = await sendOtp(phoneNumber);
+
     dispatch(setOtp({ phone: data.phone, hash: data.hash }));
     onNext();
   }
 
   return (
-    <Card title="Enter your phone number" icon="phone">
+    <Card title="Enter you phone number" icon="phone">
       <TextInput
         value={phoneNumber}
         onChange={(e) => setPhoneNumber(e.target.value)}
@@ -31,8 +30,8 @@ const Phone = ({ onNext }) => {
           <Button text="Next" onClick={submit} />
         </div>
         <p className={styles.bottomParagraph}>
-          By entering your phone number, you're agreeing to our Terms of Service
-          and Privacy Policy. Thanks
+          By entering your number, you’re agreeing to our Terms of Service and
+          Privacy Policy. Thanks!
         </p>
       </div>
     </Card>

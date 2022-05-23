@@ -1,4 +1,5 @@
 const crypto = require("crypto");
+
 class HashService {
   hashOtp(data) {
     return crypto

@@ -8,7 +8,7 @@ import {
 import "./App.css";
 import { Loader } from "./Components/Shared/Loader/Loader";
 import Navigation from "./Components/Shared/Navigation/Navigation";
-import useLoadingWithRefresh from "./hooks/useLoadingWithRefresh";
+import { useLoadingWithRefresh } from "./hooks/useLoadingWithRefresh";
 import Activate from "./pages/Activate/Activate";
 import Authenticate from "./pages/Authenticate/Authenticate";
 import Home from "./pages/Home/Home";
@@ -16,6 +16,7 @@ import Rooms from "./pages/Rooms/Rooms";
 
 function App() {
   const { loading } = useLoadingWithRefresh();
+  // const [loading, setLoading] = useState(false);
 
   return loading ? (
     <Loader message="Loading, Please wait..." />

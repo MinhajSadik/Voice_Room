@@ -1,62 +1,54 @@
-const crypto = require("crypto");
 const otpService = require("../services/otp-service");
 const hashService = require("../services/hash-service");
 const userService = require("../services/user-service");
 const tokenService = require("../services/token-service");
 const UserDto = require("../dtos/user-dto");
 
-//singleton pattern
 class AuthController {
   async sendOtp(req, res) {
-    //logic
     const { phone } = req.body;
     if (!phone) {
-      return res.status(400).json({
-        message: "Phone number is required",
-      });
+      res.status(400).json({ message: "Phone field is required!" });
     }
-    //generate otp
+
     const otp = await otpService.generateOtp();
 
-    const ttl = 1000 * 60 * 2; //2 minutes
-    const expries = Date.now() + ttl; //2 minutes from now
-    const data = `${phone}.${otp}.${expries}`;
+    const ttl = 1000 * 60 * 2; // 2 min
+    const expires = Date.now() + ttl;
+    const data = `${phone}.${otp}.${expires}`;
     const hash = hashService.hashOtp(data);
 
-    //send otp
+    // send OTP
     try {
       // await otpService.sendBySms(phone, otp);
-      return res.status(200).json({
-        hash: `${hash}.${expries}`,
+      res.json({
+        hash: `${hash}.${expires}`,
         phone,
         otp,
       });
     } catch (err) {
-      console.error(err);
-      res.status(500).json({
-        message: "Something went wrong",
-      });
+      console.log(err);
+      res.status(500).json({ message: "message sending failed" });
     }
   }
+
   async verifyOtp(req, res) {
     const { otp, hash, phone } = req.body;
     if (!otp || !hash || !phone) {
-      return res.status(400).json({
-        message: "All fields are required",
-      });
-    }
-    const [hashedOtp, expries] = hash.split(".");
-    if (Date.now() > +expries) {
-      res.status(400).json({
-        message: "OTP has expired",
-      });
+      res.status(400).json({ message: "All fields are required!" });
     }
 
-    const data = `${phone}.${otp}.${expries}`;
+    const [hashedOtp, expires] = hash.split(".");
+    if (Date.now() > +expires) {
+      res.status(400).json({ message: "OTP expired!" });
+    }
+
+    const data = `${phone}.${otp}.${expires}`;
     const isValid = otpService.verifyOtp(hashedOtp, data);
     if (!isValid) {
-      res.status(400).json({ message: "OTP is invalid" });
+      res.status(400).json({ message: "Invalid OTP" });
     }
+
     let user;
     try {
       user = await userService.findUser({ phone });
@@ -64,10 +56,8 @@ class AuthController {
         user = await userService.createUser({ phone });
       }
     } catch (err) {
-      console.error(err);
-      res.status(500).json({
-        message: "DB error",
-      });
+      console.log(err);
+      res.status(500).json({ message: "Db error" });
     }
 
     const { accessToken, refreshToken } = tokenService.generateTokens({
@@ -75,7 +65,6 @@ class AuthController {
       activated: false,
     });
 
-    //save refresh token in database recognized later
     await tokenService.storeRefreshToken(refreshToken, user._id);
 
     res.cookie("refreshToken", refreshToken, {
@@ -93,60 +82,44 @@ class AuthController {
   }
 
   async refresh(req, res) {
-    //get refresh token from cookie or header
+    // get refresh token from cookie
     const { refreshToken: refreshTokenFromCookie } = req.cookies;
-
+    // check if token is valid
     let userData;
-
-    //check if token is valid
     try {
       userData = await tokenService.verifyRefreshToken(refreshTokenFromCookie);
-    } catch (error) {
-      console.error(error);
-      return res.status(401).json({
-        message: "Invalid refresh token",
-      });
+    } catch (err) {
+      return res.status(401).json({ message: "Invalid Token" });
     }
-    //check if token is database
+    // Check if token is in db
     try {
       const token = await tokenService.findRefreshToken(
         userData._id,
         refreshTokenFromCookie
       );
       if (!token) {
-        return res.status(401).json({
-          message: "Invalid refresh token",
-        });
+        return res.status(401).json({ message: "Invalid token" });
       }
-    } catch (error) {
-      console.error(error);
-      return res.status(500).json({
-        message: "Interner server error",
-      });
+    } catch (err) {
+      return res.status(500).json({ message: "Internal error" });
     }
-    //check if valid user
+    // check if valid user
     const user = await userService.findUser({ _id: userData._id });
-
     if (!user) {
-      return res.status(404).json({
-        message: "User not found",
-      });
+      return res.status(404).json({ message: "No user" });
     }
-
-    //generate new token access and refresh
+    // Generate new tokens
     const { refreshToken, accessToken } = tokenService.generateTokens({
       _id: userData._id,
     });
 
-    //update refresh token in database
+    // Update refresh token
     try {
       await tokenService.updateRefreshToken(userData._id, refreshToken);
-    } catch (error) {
-      return res.status(500).json({
-        message: "Internal server error",
-      });
+    } catch (err) {
+      return res.status(500).json({ message: "Internal error" });
     }
-    //put is cookie
+    // put in cookie
     res.cookie("refreshToken", refreshToken, {
       maxAge: 1000 * 60 * 60 * 24 * 30,
       httpOnly: true,
@@ -156,24 +129,19 @@ class AuthController {
       maxAge: 1000 * 60 * 60 * 24 * 30,
       httpOnly: true,
     });
-    //send response
-
+    // response
     const userDto = new UserDto(user);
     res.json({ user: userDto, auth: true });
   }
 
   async logout(req, res) {
-    //delete refresh token from database
-
     const { refreshToken } = req.cookies;
+    // delete refresh token from db
     await tokenService.removeToken(refreshToken);
+    // delete cookies
     res.clearCookie("refreshToken");
     res.clearCookie("accessToken");
     res.json({ user: null, auth: false });
-    try {
-    } catch (error) {}
-
-    //delete cookies
   }
 }
 

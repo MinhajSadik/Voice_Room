@@ -2,9 +2,8 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { setAuth } from "../store/authSlice";
-
-export default function useLoadingWithRefresh() {
-  const [loading, setLoading] = useState(false);
+export function useLoadingWithRefresh() {
+  const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
   useEffect(() => {
     (async () => {
@@ -17,8 +16,8 @@ export default function useLoadingWithRefresh() {
         );
         dispatch(setAuth(data));
         setLoading(false);
-      } catch (error) {
-        console.error(error.message);
+      } catch (err) {
+        console.log(err);
         setLoading(false);
       }
     })();
