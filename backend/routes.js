@@ -1,12 +1,12 @@
 const router = require("express").Router();
 const activateController = require("./controllers/activate-controller");
 const authController = require("./controllers/auth-controller");
-const authMiddlware = require("./middlewares/auth-middlware");
+const authMiddleware = require("./middlewares/auth-middleware");
 
 router.post("/api/send-otp", authController.sendOtp);
 router.post("/api/verify-otp", authController.verifyOtp);
-router.post("/api/activate", authMiddlware, activateController.activate);
+router.post("/api/activate", authMiddleware, activateController.activate);
 router.get("/api/refresh", authController.refresh);
-router.post("/api/logout", authMiddlware, authController.logout);
+router.post("/api/logout", authMiddleware, authController.logout);
 
 module.exports = router;
