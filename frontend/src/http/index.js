@@ -4,10 +4,12 @@ const api = axios.create({
   baseURL: process.env.REACT_APP_API_URL,
   withCredentials: true,
   headers: {
-    "Content-Type": "application/json",
+    "Content-type": "application/json",
     Accept: "application/json",
   },
 });
+
+// console.log(process.env.REACT_APP_API_URL);
 
 // List of all the endpoints
 export const sendOtp = (data) => api.post("/api/send-otp", data);
@@ -33,6 +35,7 @@ api.interceptors.response.use(
           withCredentials: true,
         });
 
+        console.log(originalRequest);
         return api.request(originalRequest);
       } catch (err) {
         console.log(err.message);
