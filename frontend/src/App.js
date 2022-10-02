@@ -1,21 +1,89 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import "./App.css";
 import Navigation from "./Components/shared/Navigation/Navigation";
+import Activate from "./pages/Activate/Activate";
+import Authenticate from "./pages/Authenticate/Authenticate";
 import Home from "./pages/Home/Home";
-import Login from "./pages/Login/Login";
-import Register from "./pages/Register/Register";
+import Rooms from "./pages/Rooms/Rooms";
+
+const isLoggedIn = false;
+const user = {
+  activated: false,
+};
 
 function App() {
   return (
     <BrowserRouter>
       <Navigation />
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/login" element={<Login />} />
+        <Route
+          path="/"
+          element={
+            <GuestRoute>
+              <Home />
+            </GuestRoute>
+          }
+        />
+        <Route
+          path="/authenticate"
+          element={
+            <GuestRoute>
+              <Authenticate />
+            </GuestRoute>
+          }
+        />
+
+        <Route
+          path="/activate"
+          element={
+            <SemiProtectedRoute>
+              <Activate />
+            </SemiProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/rooms"
+          element={
+            <ProtectedRoute>
+              <Rooms />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </BrowserRouter>
   );
 }
 
+const GuestRoute = ({ children, ...rest }) => {
+  return <>{isLoggedIn ? <Navigate to="/rooms" replace /> : children}</>;
+};
+
+const SemiProtectedRoute = ({ children, ...rest }) => {
+  return (
+    <>
+      {!isLoggedIn ? (
+        <Navigate to="/" replace />
+      ) : isLoggedIn && !user.activated ? (
+        children
+      ) : (
+        <Navigate to="/rooms" />
+      )}
+    </>
+  );
+};
+
+const ProtectedRoute = ({ children, ...rest }) => {
+  return (
+    <>
+      {!isLoggedIn ? (
+        <Navigate to="/" replace />
+      ) : isLoggedIn && !user.activated ? (
+        <Navigate to="/activate" />
+      ) : (
+        children
+      )}
+    </>
+  );
+};
 export default App;

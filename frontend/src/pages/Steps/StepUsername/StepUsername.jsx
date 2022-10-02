@@ -3,7 +3,7 @@ import React from "react";
 const StepUsername = ({ onNext }) => {
   return (
     <>
-      <div>StepUsername</div>
+      <div>username component</div>
       <button onClick={onNext}>Next</button>
     </>
   );
