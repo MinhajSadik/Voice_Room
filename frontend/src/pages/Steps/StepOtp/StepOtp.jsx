@@ -1,12 +1,25 @@
 import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import Button from "../../../Components/shared/Button/Button";
 import Card from "../../../Components/shared/Card/Card";
 import Input from "../../../Components/shared/Input/Input";
+import { verifyOtp } from "../../../https";
+import { setUser } from "../../../redux/features/userSlice";
 import styles from "./StepOtp.module.css";
 
-const StepOtp = ({ onNext }) => {
+const StepOtp = () => {
   const [otp, setOtp] = useState("");
-  const submit = () => {};
+  const dispatch = useDispatch();
+  const { hash, phone } = useSelector((state) => state.auth.otp);
+  const submit = async () => {
+    try {
+      const { data } = await verifyOtp({ otp, phone, hash });
+      console.log(data);
+      dispatch(setUser(data));
+    } catch (error) {
+      console.log("message", error);
+    }
+  };
   return (
     <>
       <div className={styles.cardWrapper}>

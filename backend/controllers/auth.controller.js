@@ -1,3 +1,4 @@
+import UserDto from "../dtos/user.dto.js";
 import hashService from "../services/hash.service.js";
 import otpService from "../services/otp.service.js";
 import tokenService from "../services/token.service.js";
@@ -22,12 +23,12 @@ class AuthController {
       const hashed = await hashService.hashOtp(data);
 
       //send otp
-      await otpService.sendBySms(phone, otp);
+      // await otpService.sendBySms(phone, otp);
 
       return res.json({
         hash: `${hashed}.${expires}`,
         phone,
-        otp,
+        otp, //later otp have to remove
       });
     } catch (error) {
       console.error(error.message);
@@ -85,9 +86,8 @@ class AuthController {
       httpOnly: true,
     });
 
-    console.log(accessToken);
-
-    res.json({ accessToken });
+    const userDto = new UserDto(user);
+    res.json({ accessToken, user: userDto });
   }
 }
 

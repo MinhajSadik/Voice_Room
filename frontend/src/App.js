@@ -1,3 +1,4 @@
+import { useSelector } from "react-redux";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import "./App.css";
 import Navigation from "./Components/shared/Navigation/Navigation";
@@ -5,11 +6,6 @@ import Activate from "./pages/Activate/Activate";
 import Authenticate from "./pages/Authenticate/Authenticate";
 import Home from "./pages/Home/Home";
 import Rooms from "./pages/Rooms/Rooms";
-
-const isLoggedIn = false;
-const user = {
-  activated: false,
-};
 
 function App() {
   return (
@@ -56,10 +52,14 @@ function App() {
 }
 
 const GuestRoute = ({ children, ...rest }) => {
+  const { isLoggedIn } = useSelector((state) => state.auth);
+
   return <>{isLoggedIn ? <Navigate to="/rooms" replace /> : children}</>;
 };
 
 const SemiProtectedRoute = ({ children, ...rest }) => {
+  const { isLoggedIn, user } = useSelector((state) => state.auth);
+
   return (
     <>
       {!isLoggedIn ? (
@@ -74,6 +74,8 @@ const SemiProtectedRoute = ({ children, ...rest }) => {
 };
 
 const ProtectedRoute = ({ children, ...rest }) => {
+  const { isLoggedIn, user } = useSelector((state) => state.auth);
+ 
   return (
     <>
       {!isLoggedIn ? (
