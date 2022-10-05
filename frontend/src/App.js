@@ -1,14 +1,20 @@
 import { useSelector } from "react-redux";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import "./App.css";
+import Loader from "./Components/shared/Loader/Loader";
 import Navigation from "./Components/shared/Navigation/Navigation";
+import useLoadingWithRefresh from "./hooks/useLoadingWithRefresh";
 import Activate from "./pages/Activate/Activate";
 import Authenticate from "./pages/Authenticate/Authenticate";
 import Home from "./pages/Home/Home";
 import Rooms from "./pages/Rooms/Rooms";
 
 function App() {
-  return (
+  const { loading } = useLoadingWithRefresh();
+
+  return loading ? (
+    <Loader message="Loading..." />
+  ) : (
     <BrowserRouter>
       <Navigation />
       <Routes>
@@ -51,13 +57,13 @@ function App() {
   );
 }
 
-const GuestRoute = ({ children, ...rest }) => {
+const GuestRoute = ({ children }) => {
   const { isLoggedIn } = useSelector((state) => state.auth);
 
   return <>{isLoggedIn ? <Navigate to="/rooms" replace /> : children}</>;
 };
 
-const SemiProtectedRoute = ({ children, ...rest }) => {
+const SemiProtectedRoute = ({ children }) => {
   const { isLoggedIn, user } = useSelector((state) => state.auth);
 
   return (
@@ -73,9 +79,9 @@ const SemiProtectedRoute = ({ children, ...rest }) => {
   );
 };
 
-const ProtectedRoute = ({ children, ...rest }) => {
+const ProtectedRoute = ({ children }) => {
   const { isLoggedIn, user } = useSelector((state) => state.auth);
- 
+
   return (
     <>
       {!isLoggedIn ? (

@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Button from "../../../Components/shared/Button/Button";
 import Card from "../../../Components/shared/Card/Card";
+import Loader from "../../../Components/shared/Loader/Loader";
 import { activate } from "../../../https/index";
 import { setAvatar } from "../../../redux/features/activateSlice";
 import { setUser } from "../../../redux/features/userSlice";
@@ -11,6 +12,8 @@ const StepAvatar = ({ onNext }) => {
   const { avatar, name } = useSelector((state) => state.activate);
   const dispatch = useDispatch();
   const [image, setImage] = useState("/images/monkey-avatar.png");
+  const [loading, setLoading] = useState(false);
+  const [unMounted, setUnMounted] = useState(false);
 
   function captureImage(e) {
     const file = e.target.files[0];
@@ -23,15 +26,29 @@ const StepAvatar = ({ onNext }) => {
   }
 
   async function submit() {
+    if (!name || !avatar) return;
+    setLoading(true);
     try {
       const { data } = await activate({ name, avatar });
       if (data.auth) {
-        dispatch(setUser(data));
+        if (!unMounted) {
+          dispatch(setUser(data));
+        }
       }
     } catch (error) {
       console.error("message", error);
+    } finally {
+      setLoading(false);
     }
   }
+
+  useEffect(() => {
+    return () => {
+      setUnMounted(true);
+    };
+  }, []);
+
+  if (loading) return <Loader message="Activation in progress..." />;
   return (
     <>
       <Card title={`Okay, ${name}`} icon="monkey">

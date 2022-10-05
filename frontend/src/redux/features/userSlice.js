@@ -15,14 +15,18 @@ export const userSlice = createSlice({
   reducers: {
     setUser: (state, { payload }) => {
       const { user } = payload;
-
       state.user = user;
-      state.isLoggedIn = true;
+      if (user === null) {
+        state.isLoggedIn = false;
+      } else {
+        state.isLoggedIn = true;
+      }
     },
     setOtp: (state, { payload }) => {
       const { phone, hash } = payload;
       state.otp.phone = phone;
       state.otp.hash = hash;
+      state.isLoggedIn = false;
     },
   },
   extraReducers: {},

@@ -12,12 +12,10 @@ const Phone = ({ onNext }) => {
   const [phoneNumber, setPhoneNumber] = useState("");
 
   async function submit() {
-    //server request
+    if (!phoneNumber) return;
     try {
-      if (!phoneNumber) return;
       const { data } = await sendOtp({ phone: phoneNumber });
       dispatch(setOtp({ phone: data.phone, hash: data.hash }));
-      console.log(data);
       onNext();
     } catch (error) {
       console.log("message", error);

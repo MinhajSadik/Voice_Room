@@ -8,5 +8,6 @@ router.post("/sendOtp", userController.sendOtp);
 router.post("/verifyOtp", userController.verifyOtp);
 router.post("/activate", authMiddleware, userController.activate);
 router.get("/refresh", userController.refresh);
+router.post('/logout', authMiddleware, userController.logout)
 
 export default router;
