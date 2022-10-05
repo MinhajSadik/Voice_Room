@@ -1,6 +1,5 @@
 class UserDto {
   //dto: d: data t: transform o: object
-
   id;
   phone;
   name;

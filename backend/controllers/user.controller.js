@@ -158,6 +158,7 @@ class AuthController {
 
   async refresh(req, res) {
     //get refresh token from cookie
+
     const { refreshToken: refreshTokenFromCookie } = req.cookies;
 
     //check if token is valid
@@ -184,6 +185,7 @@ class AuthController {
 
     //check if valid user
     const user = await userService.findUser({ _id: userData._id });
+
     if (!user) {
       return res.status(404).json({ message: "No User" });
     }
@@ -194,7 +196,7 @@ class AuthController {
 
     //update refresh token
     try {
-      await tokenService.updateRefreshToken(refreshToken, userData._id);
+      await tokenService.updateRefreshToken(userData._id, refreshToken);
     } catch (error) {
       return res.status(500).json({ message: error.message });
     }
