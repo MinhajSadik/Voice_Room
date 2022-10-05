@@ -1,9 +1,10 @@
+import cookieParser from "cookie-parser";
 import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
 import morgan from "morgan";
 import connectDB from "./database/mdb.js";
-import authRoute from "./routes/auth.route.js";
+import userRoute from "./routes/user.route.js";
 
 dotenv.config();
 
@@ -13,20 +14,22 @@ const options = {
 };
 const app = express();
 const PORT = process.env.PORT || 5000;
-app.use(express.json());
+app.use(cookieParser());
+app.use(express.json({ limit: "10mb" }));
+app.use("/storage", express.static("storage"));
 app.use(morgan("dev"));
 app.use(cors(options));
 
 connectDB();
 
-app.use("/api/user", authRoute);
+app.use("/api/user", userRoute);
 
 app.all("/", (req, res) => {
-  res.send("Hello from voice room!");
+  res.json("Hello from voice room!");
 });
 
 app.get("*", (req, res) => {
-  res.send("Nothing found here!");
+  res.json("Nothing found here!");
 });
 
 app.listen(PORT, () => {

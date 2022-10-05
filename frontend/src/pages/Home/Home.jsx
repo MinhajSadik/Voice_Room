@@ -11,7 +11,7 @@ const Home = () => {
   };
 
   return (
-    <div className={styles.cardWrapper}>
+    <div className="cardWrapper">
       <Card title="Welcome to Voice Room!" icon="logo">
         <p className={styles.text}>
           We’re working hard to get Voice Room ready for everyone! While we wrap

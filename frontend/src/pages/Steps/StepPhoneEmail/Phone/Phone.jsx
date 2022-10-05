@@ -14,6 +14,7 @@ const Phone = ({ onNext }) => {
   async function submit() {
     //server request
     try {
+      if (!phoneNumber) return;
       const { data } = await sendOtp({ phone: phoneNumber });
       dispatch(setOtp({ phone: data.phone, hash: data.hash }));
       console.log(data);
@@ -23,7 +24,6 @@ const Phone = ({ onNext }) => {
     }
   }
 
-  console.log(phoneNumber);
   return (
     <Card title="Enter your phone number" icon="phone">
       <Input

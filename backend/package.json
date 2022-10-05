@@ -21,6 +21,7 @@
     "morgan": "^1.10.0"
   },
   "dependencies": {
+    "jimp": "^0.16.2",
     "twilio": "^3.82.1"
   }
 }
