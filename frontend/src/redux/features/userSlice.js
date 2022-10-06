@@ -26,7 +26,7 @@ export const userSlice = createSlice({
       const { phone, hash } = payload;
       state.otp.phone = phone;
       state.otp.hash = hash;
-      state.isLoggedIn = false;
+      // state.isLoggedIn = false;
     },
   },
   extraReducers: {},
