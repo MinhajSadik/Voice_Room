@@ -9,6 +9,12 @@ const userSchema = new Schema(
     avatar: {
       type: String,
       required: false,
+      get: (avatar) => {
+        if (avatar) {
+          return `${process.env.BASE_URL}${avatar}`;
+        }
+        return avatar;
+      },
     },
     phone: {
       type: String,
@@ -22,6 +28,7 @@ const userSchema = new Schema(
   },
   {
     timestamps: true,
+    toJSON: { getters: true },
   }
 );
 

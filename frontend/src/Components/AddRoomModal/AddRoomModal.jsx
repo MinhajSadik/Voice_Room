@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { createRoom as create } from "../../https/index";
 import Input from "../shared/Input/Input";
 import styles from "./AddRoomModal.module.css";
@@ -8,12 +9,14 @@ const AddRoomModal = ({ onClose }) => {
   const [roomType, setRoomType] = useState("open");
   const [topic, setTopic] = useState("");
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   async function createRoom() {
     //server call
     try {
       if (!topic) return;
       const { data } = await create({ topic, roomType });
+      navigate(`/room/${data.id}`);
       console.log(data);
     } catch (error) {
       console.error(error);

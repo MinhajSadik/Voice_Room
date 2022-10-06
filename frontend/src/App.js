@@ -7,6 +7,7 @@ import useLoadingWithRefresh from "./hooks/useLoadingWithRefresh";
 import Activate from "./pages/Activate/Activate";
 import Authenticate from "./pages/Authenticate/Authenticate";
 import Home from "./pages/Home/Home";
+import Room from "./pages/Room/Room";
 import Rooms from "./pages/Rooms/Rooms";
 
 function App() {
@@ -49,6 +50,14 @@ function App() {
           element={
             <ProtectedRoute>
               <Rooms />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/room/:id"
+          element={
+            <ProtectedRoute>
+              <Room />
             </ProtectedRoute>
           }
         />
