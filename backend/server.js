@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import express from "express";
 import morgan from "morgan";
 import connectDB from "./database/mdb.js";
+import roomRoute from "./routes/room.route.js";
 import userRoute from "./routes/user.route.js";
 
 dotenv.config();
@@ -23,6 +24,7 @@ app.use(cors(options));
 connectDB();
 
 app.use("/api/user", userRoute);
+app.use("/api/room", roomRoute);
 
 app.all("/", (req, res) => {
   res.json("Hello from voice room!");
