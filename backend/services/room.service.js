@@ -19,6 +19,12 @@ class RoomService {
       .exec();
     return rooms;
   }
+
+  async getRoom(roomId) {
+    const room = await RoomModel.findOne({ _id: roomId });
+
+    return room;
+  }
 }
 
 export default new RoomService();

@@ -1,16 +1,38 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useWebRTC } from "../../hooks/useWebRTC";
+import { getRoom } from "../../https/index";
 import styles from "./Room.module.css";
 
-const Room = ({ room }) => {
+const Room = () => {
+  const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
   const { id: roomId } = useParams();
-  const { clients, provideRef } = useWebRTC(roomId, user);
+  const { clients, provideRef, handleMute } = useWebRTC(roomId, user);
+  const [room, setRoom] = useState(null);
+  const [isMute, setMute] = useState(true);
 
-  function handManualLeave() {}
-  function handleMuteClick() {}
+  useEffect(() => {
+    handleMute(isMute, user.id);
+  }, [isMute]);
+
+  useEffect(() => {
+    const fetchRoom = async () => {
+      const { data } = await getRoom(roomId);
+      setRoom((prevRoom) => data);
+    };
+
+    fetchRoom();
+  }, []);
+
+  function handManualLeave() {
+    navigate("/rooms");
+  }
+  function handleMuteClick(clientId) {
+    if (clientId !== user.id) return;
+    setMute((isMute) => !isMute);
+  }
 
   return (
     <div>
@@ -22,7 +44,7 @@ const Room = ({ room }) => {
       </div>
       <div className={styles.clientsWrap}>
         <div className={styles.header}>
-          {room && <h2 className={styles.topic}>{room.topic}</h2>}
+          {room && <h2 className={styles.topic}>{room?.topic}</h2>}
           <div className={styles.actions}>
             <button className={styles.actionBtn}>
               <img src="/images/palm.png" alt="palm-icon" />
@@ -57,13 +79,13 @@ const Room = ({ room }) => {
                       <img
                         className={styles.mic}
                         src="/images/mic-mute.png"
-                        alt="mic"
+                        alt="micMute"
                       />
                     ) : (
                       <img
                         className={styles.micImg}
                         src="/images/mic.png"
-                        alt="mic"
+                        alt="micUnMute"
                       />
                     )}
                   </button>

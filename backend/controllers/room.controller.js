@@ -27,6 +27,12 @@ class RoomController {
 
     return res.json(allRooms);
   }
+
+  async show(req, res) {
+    const room = await roomService.getRoom(req.params.roomId);
+
+    return res.json(room);
+  }
 }
 
 export default new RoomController();
