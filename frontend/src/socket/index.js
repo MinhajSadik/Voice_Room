@@ -8,5 +8,5 @@ export const socketInit = () => {
     transports: ["websocket"],
   };
 
-  return io("http://localhost:5000", options);
+  return io("https://voice-room-api-minhajsadik.vercel.app", options);
 };
