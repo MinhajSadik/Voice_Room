@@ -8,6 +8,7 @@ import {
 import "./App.css";
 import Loader from "./Components/shared/Loader/Loader";
 import Navigation from "./Components/shared/Navigation/Navigation";
+import NotFound from "./Components/shared/NotFound/NotFound";
 import { useLoadingWithRefresh } from "./hooks/useLoadingWithRefresh";
 import Activate from "./pages/Activate/Activate";
 import Authenticate from "./pages/Authenticate/Authenticate";
@@ -66,6 +67,7 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
   );
