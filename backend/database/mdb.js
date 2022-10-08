@@ -14,8 +14,8 @@ async function connectDB() {
   };
 
   try {
-    mongoose.connect(DB_URL, options);
-    console.log(`Database Connected with url: ${Local_Url}`);
+    mongoose.connect(Remote_Url, options);
+    console.log(`Database Connected with url: ${DB_URL}`);
   } catch (error) {
     console.error(error.message);
     process.exit(1);
