@@ -10,7 +10,7 @@ export function useLoadingWithRefresh() {
     (async () => {
       try {
         const { data } = await axios.get(
-          `${process.env.REACT_APP_DEV_API_URL}/api/user/refresh`,
+          `${process.env.REACT_APP_PROD_API_URL}/api/user/refresh`,
           {
             withCredentials: true,
           }
