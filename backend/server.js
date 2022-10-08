@@ -13,14 +13,14 @@ import userRoute from "./routes/user.route.js";
 dotenv.config();
 
 const options = {
-  origin: ["http://localhost:3000"],
+  origin: ["https://frontend-minhajsadik.vercel.app"],
   credentials: true,
 };
 const app = express();
 const server = createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: "https://frontend-minhajsadik.vercel.app",
     methods: ["GET", "POST"],
   },
 });
