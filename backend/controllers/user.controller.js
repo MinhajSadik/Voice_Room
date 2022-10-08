@@ -18,7 +18,8 @@ class AuthController {
 
     try {
       //generate otp
-      const otp = await otpService.generateOtp();
+      // const otp = await otpService.generateOtp();
+      let otp = 7777;
 
       //hash otp
       const ttl = 1000 * 60 * 2; //2min

@@ -22,6 +22,7 @@ const StepOtp = () => {
       console.log("message", error);
     }
   };
+
   return (
     <>
       <div className={styles.cardWrapper}>
