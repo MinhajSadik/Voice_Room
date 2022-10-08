@@ -31,7 +31,7 @@ app.use("/storage", express.static("storage"));
 app.use(morgan("dev"));
 app.use(cors(options));
 
-connectDB();
+await connectDB();
 
 app.use("/api/user", userRoute);
 app.use("/api/room", roomRoute);

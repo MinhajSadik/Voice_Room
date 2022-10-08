@@ -88,7 +88,7 @@ class AuthController {
 
     //store token
 
-    tokenService.storeRefreshToken(refreshToken, user._id);
+    await tokenService.storeRefreshToken(refreshToken, user._id);
 
     res.cookie("refreshToken", refreshToken, {
       maxAge: 1000 * 60 * 60 * 24 * 30,
