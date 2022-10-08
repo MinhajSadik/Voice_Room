@@ -1,9 +1,14 @@
 import { useSelector } from "react-redux";
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Navigate,
+  Route,
+  Routes,
+} from "react-router-dom";
 import "./App.css";
 import Loader from "./Components/shared/Loader/Loader";
 import Navigation from "./Components/shared/Navigation/Navigation";
-import useLoadingWithRefresh from "./hooks/useLoadingWithRefresh";
+import { useLoadingWithRefresh } from "./hooks/useLoadingWithRefresh";
 import Activate from "./pages/Activate/Activate";
 import Authenticate from "./pages/Authenticate/Authenticate";
 import Home from "./pages/Home/Home";
@@ -14,9 +19,9 @@ function App() {
   const { loading } = useLoadingWithRefresh();
 
   return loading ? (
-    <Loader message="Loading..." />
+    <Loader message="Loading, please wait.." />
   ) : (
-    <BrowserRouter>
+    <Router>
       <Navigation />
       <Routes>
         <Route
@@ -62,7 +67,7 @@ function App() {
           }
         />
       </Routes>
-    </BrowserRouter>
+    </Router>
   );
 }
 

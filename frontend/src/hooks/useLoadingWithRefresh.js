@@ -3,11 +3,9 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { setUser } from "../redux/features/userSlice";
 
-const useLoadingWithRefresh = () => {
+export function useLoadingWithRefresh() {
   const [loading, setLoading] = useState(true);
-
   const dispatch = useDispatch();
-
   useEffect(() => {
     (async () => {
       try {
@@ -17,17 +15,14 @@ const useLoadingWithRefresh = () => {
             withCredentials: true,
           }
         );
-
         dispatch(setUser(data));
         setLoading(false);
-      } catch (error) {
-        console.error(error);
+      } catch (err) {
+        console.log(err);
         setLoading(false);
       }
     })();
-  }, [dispatch]);
+  }, []);
 
-  return loading;
-};
-
-export default useLoadingWithRefresh;
+  return { loading };
+}
