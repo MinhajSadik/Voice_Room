@@ -15,7 +15,9 @@ const StepOtp = () => {
     if (!otp || !phone || !hash) return;
     try {
       const { data } = await verifyOtp({ otp, phone, hash });
+
       dispatch(setUser(data));
+      console.log("stepOtp:", data, otp);
     } catch (error) {
       console.log("message", error);
     }
