@@ -10,6 +10,7 @@ const userSchema = new Schema(
       type: String,
       required: false,
       get: (avatar) => {
+        console.log(avatar);
         if (avatar) {
           return `${process.env.BASE_URL}${avatar}`;
         }
