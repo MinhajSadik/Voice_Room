@@ -125,9 +125,9 @@ class AuthController {
       const __dirname = dirname(__filename);
 
       const jimpRes = await Jimp.read(buffer);
-      jimpRes
+      await jimpRes
         .resize(150, Jimp.AUTO)
-        .write(path.resolve(__dirname, `../storage/${imagePath}`));
+        .writeAsync(path.resolve(__dirname, `../storage/${imagePath}`));
     } catch (error) {
       return res.status(500).json({
         message: error.message,
