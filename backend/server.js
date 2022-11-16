@@ -13,7 +13,10 @@ import userRoute from "./routes/user.route.js";
 dotenv.config();
 
 const options = {
-  origin: ["https://frontend-minhajsadik.vercel.app"],
+  origin: [
+    "https://voice-room.vercel.app" ||
+      "https://voice-room-minhajsadik.vercel.app",
+  ],
   credentials: true,
 };
 const app = express();
