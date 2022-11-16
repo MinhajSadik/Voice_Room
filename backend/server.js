@@ -41,7 +41,7 @@ app.all("/", (req, res) => {
 });
 
 app.get("*", (req, res) => {
-  res.json("Nothing found here!");
+  res.json("We are having trouble to find this route!");
 });
 
 const socketUserMap = {};
