@@ -20,7 +20,7 @@ const app = express();
 const server = createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: "https://frontend-minhajsadik.vercel.app",
+    origin: "https://voice-room.vercel.app",
     methods: ["GET", "POST"],
   },
 });
