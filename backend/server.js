@@ -41,7 +41,7 @@ app.all("/", (req, res) => {
 });
 
 app.get("*", (req, res) => {
-  res.json("We are having trouble to find this route!");
+  res.json("We are having trouble to find the route!");
 });
 
 const socketUserMap = {};
