@@ -13,7 +13,7 @@ import userRoute from "./routes/user.route.js";
 dotenv.config();
 
 const options = {
-  origin: ["https://frontend-minhajsadik.vercel.app", "http://localhost:3000"],
+  origin: ["https://frontend-minhajsadik.vercel.app"],
   credentials: true,
 };
 const app = express();
