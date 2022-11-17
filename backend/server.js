@@ -4,7 +4,9 @@ import dotenv from "dotenv";
 import express from "express";
 import { createServer } from "http";
 import morgan from "morgan";
+import path, { dirname } from "path";
 import { Server } from "socket.io";
+import { fileURLToPath } from "url";
 import { ACTIONS } from "./actions.js";
 import connectDB from "./database/mdb.js";
 import roomRoute from "./routes/room.route.js";
@@ -24,10 +26,14 @@ const io = new Server(server, {
     methods: ["GET", "POST"],
   },
 });
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
 const PORT = process.env.PORT || 5000;
 app.use(cookieParser());
 app.use(express.json({ limit: "10mb" }));
-app.use("/storage", express.static("storage"));
+app.use("/storage", express.static(path.join(__dirname, "public")));
 app.use(morgan("dev"));
 app.use(cors(options));
 
