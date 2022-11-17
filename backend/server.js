@@ -33,7 +33,7 @@ const __dirname = dirname(__filename);
 const PORT = process.env.PORT || 5000;
 app.use(cookieParser());
 app.use(express.json({ limit: "10mb" }));
-app.use("/storage", express.static(path.join(__dirname, "public")));
+app.use("/storage", express.static(path.join(__dirname, "storage")));
 app.use(morgan("dev"));
 app.use(cors(options));
 
