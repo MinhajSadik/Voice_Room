@@ -5,7 +5,8 @@ const devEnv = process.env.NODE_ENV === "development";
 const { REACT_APP_DEV_API_URL, REACT_APP_PROD_API_URL } = process.env;
 
 const api = axios.create({
-  baseURL: `${devEnv ? REACT_APP_DEV_API_URL : REACT_APP_PROD_API_URL}`,
+  // baseURL: `${devEnv ? REACT_APP_DEV_API_URL : REACT_APP_PROD_API_URL}`,
+  baseURL: REACT_APP_DEV_API_URL,
   withCredentials: true,
   headers: {
     "Content-type": "application/json",

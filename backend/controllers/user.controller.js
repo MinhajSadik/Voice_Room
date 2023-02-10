@@ -101,6 +101,8 @@ class AuthController {
       httpOnly: true,
     });
 
+    console.log(accessToken, refreshToken);
+
     const userDto = new UserDto(user);
     return res.json({ user: userDto, auth: true });
   }
@@ -214,6 +216,8 @@ class AuthController {
       maxAge: 1000 * 60 * 60 * 24 * 30,
       httpOnly: true,
     });
+
+    console.log({ accessToken, refreshToken });
 
     //response
     const userDto = new UserDto(user);

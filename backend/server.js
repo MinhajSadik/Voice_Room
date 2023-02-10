@@ -15,7 +15,8 @@ import userRoute from "./routes/user.route.js";
 dotenv.config();
 
 const options = {
-  origin: ["https://voice-room.vercel.app"],
+  // origin: ["https://voice-room.vercel.app"],
+  origin: "http://localhost:3000",
   credentials: true,
 };
 const app = express();
@@ -30,7 +31,7 @@ const io = new Server(server, {
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 app.use(cookieParser());
 app.use(express.json({ limit: "10mb" }));
 app.use("/storage", express.static(path.join(__dirname, "storage")));
